@@ -1,0 +1,11 @@
+<svg width="120" height="140" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Triangle outline -->
+  <path d="M60 10 L110 100 L10 100 Z" stroke="#E91E8C" stroke-width="4" fill="none"/>
+
+  <!-- Shield -->
+  <path d="M60 40 L80 50 L80 75 Q80 85 60 90 Q40 85 40 75 L40 50 Z" stroke="#E91E8C" stroke-width="3" fill="none"/>
+
+  <!-- Arrow down -->
+  <line x1="60" y1="100" x2="60" y2="130" stroke="#E91E8C" stroke-width="3"/>
+  <path d="M60 130 L55 125 M60 130 L65 125" stroke="#E91E8C" stroke-width="3" fill="none"/>
+</svg>
