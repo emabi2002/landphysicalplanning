@@ -1,223 +1,299 @@
-# Physical Planning Management System
+# 🏛️ Physical Planning Division Management System
 
-A comprehensive subsystem for managing physical planning operations within the Papua New Guinea Land Department.
+**A comprehensive web-based management system for Papua New Guinea's Lands & Physical Planning Department**
 
-## 🎉 NEW: GIS & Legal Integration
+[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://your-demo-url.com)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
 
-**Version 10** now includes:
-- ✅ **Interactive GIS Mapping** with React-Leaflet
-- ✅ **Legal Case Management** integration
-- ✅ **Real-time Spatial Data** visualization
-- ✅ **SLA-based Request Tracking** with auto-alerts
-- ✅ **Bi-directional Legal-Planning Communication**
+## 🎯 Overview
 
-📖 **[Complete GIS & Legal Guide](.same/GIS_LEGAL_INTEGRATION_GUIDE.md)**
+This full-featured web application digitizes and streamlines the operations of Papua New Guinea's Physical Planning Division, enabling efficient management of land development, planning applications, inspections, compliance monitoring, and inter-division communication.
 
-## 🚀 Quick Start
+## ✨ Key Features
 
-### ⚡ Development Mode (Current)
+### 🔄 **Inter-Division Requisition System**
+- Bi-directional request tracking between all government divisions
+- Real-time notification badges for unattended requests
+- Email-style read/unread indicators
+- Event calendar for division scheduling
+- SLA monitoring with deadline tracking
+- Support for 20+ request types (technical opinions, document requests, approvals, etc.)
 
-**Authentication is currently bypassed** for rapid development!
+### 🏗️ **Site Inspections Management**
+- Schedule and track all types of inspections
+- Record findings and compliance status
+- Upload and geo-tag inspection photos
+- Assign inspections to field officers
+- Track inspection history and outcomes
+
+### ⚖️ **Compliance Monitoring**
+- Report and track violations (unauthorized development, zoning violations, etc.)
+- Log enforcement actions and penalties
+- Monitor case severity (minor → critical)
+- Track resolution timelines
+- Generate compliance reports
+
+### 📋 **Development Plans Review**
+- Submit and review subdivision plans
+- Track master plans and development proposals
+- Manage plan approval workflow
+- Store and version plan documents
+- Monitor validity periods
+
+### 📝 **Development Applications**
+- Complete application management system
+- Track applications through approval process
+- Link applications to parcels and plans
+- Document upload and management
+
+### 🗺️ **GIS Mapping System**
+- Interactive map with drawing tools
+- View and edit land parcels
+- Zoning district visualization
+- GPS coordinate capture
+- Spatial evidence collection
+- Support for GeoJSON, TopoJSON formats
+
+### 🏘️ **Land Parcels Management**
+- Comprehensive property records
+- Parcel search and filtering
+- Link to applications and legal cases
+- Boundary and ownership tracking
+
+### 🎨 **Zoning Districts**
+- Manage zoning classifications
+- Visual zoning map representation
+- Zoning regulations and restrictions
+
+## 🚀 Tech Stack
+
+- **Frontend:** Next.js 15 (App Router), React 18, TypeScript
+- **Styling:** Tailwind CSS, shadcn/ui components
+- **Database:** PostgreSQL (via Supabase)
+- **Authentication:** Supabase Auth
+- **Storage:** Supabase Storage
+- **Maps:** React Leaflet, OpenStreetMap
+- **Charts:** Recharts
+- **Forms:** React Hook Form
+- **Date Handling:** date-fns
+- **Package Manager:** Bun
+
+## 📊 System Modules
+
+| Module | Status | Features |
+|--------|--------|----------|
+| Division Requests | ✅ Complete | CRUD, Calendar, Notifications |
+| Site Inspections | ✅ Complete | Scheduling, Findings, Photos |
+| Compliance | ✅ Complete | Violations, Enforcement, Actions |
+| Development Plans | ✅ Complete | Review, Approval, Documents |
+| Applications | ✅ Complete | Tracking, Workflow, Documents |
+| Land Parcels | ✅ Complete | Records, Search, GIS Integration |
+| Zoning Districts | ✅ Complete | Classification, Regulations |
+| GIS Map | ✅ Complete | Interactive, Drawing, GPS |
+| User Management | ✅ Complete | Roles, Permissions, Activity |
+| Notifications | ✅ Complete | Real-time, Email, In-app |
+
+## 🛠️ Installation
+
+### Prerequisites
+- Node.js 18+ or Bun
+- PostgreSQL database (or Supabase account)
+- Git
+
+### Quick Start
 
 ```bash
+# Clone the repository
+git clone https://github.com/emabi2002/landphysicalplanning.git
+cd landphysicalplanning
+
+# Install dependencies
+bun install
+# or
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your Supabase credentials
+
+# Run database migrations
+# See .same/complete-database-schema.sql
+
+# Start development server
 bun dev
-# Opens directly to dashboard - no login needed!
-# Perfect for building features fast
+# or
+npm run dev
 ```
 
-📖 **[Development Mode Guide](.same/DEVELOPMENT_MODE.md)** - How to re-enable auth later
+Visit `http://localhost:3000`
 
----
+## 📋 Database Setup
 
-### 🔐 Production Setup (When Ready)
+### 1. Create Supabase Project
+1. Go to [supabase.com](https://supabase.com)
+2. Create a new project
+3. Copy your project URL and anon key
 
-### 1. Database Setup
+### 2. Run Database Scripts
 
-Execute the database schema in your Supabase project:
-
-```bash
-# File: .same/database-schema.sql
-# Copy and run in Supabase SQL Editor
-```
-
-### 2. Add User Profile (Shared Authentication)
-
-Since you're using **shared authentication** with `admin@lands.gov.pg`, run:
+In your Supabase SQL Editor, run these scripts in order:
 
 ```sql
--- Quick setup (includes sample data)
--- File: .same/quick-setup.sql
--- Copy and run in Supabase SQL Editor
+-- 1. Main schema (users, applications, parcels, zoning)
+.same/database-schema.sql
+
+-- 2. GIS and Legal integration
+.same/database-schema-gis-legal.sql
+
+-- 3. Complete modules (inspections, compliance, plans)
+.same/complete-database-schema.sql
+
+-- 4. Sample data (optional for testing)
+.same/insert-complete-sample-data.sql
 ```
 
-Or manually add just the user profile:
-
-```sql
-INSERT INTO public.users (id, email, full_name, role, department, status)
-SELECT
-  id, email,
-  COALESCE(raw_user_meta_data->>'full_name', 'System Administrator'),
-  'admin', 'Physical Planning Division', 'active'
-FROM auth.users
-WHERE email = 'admin@lands.gov.pg'
-ON CONFLICT (id) DO UPDATE
-SET role = 'admin', department = 'Physical Planning Division';
-```
-
-### 3. Start Development Server
-
-```bash
-bun dev
-```
-
-Access at: **http://localhost:3000**
-
-Login with: **admin@lands.gov.pg** (your existing password)
-
-## 📚 Documentation
-
-- **[Setup Guide](.same/SETUP_GUIDE.md)** - Detailed setup instructions
-- **[Technical Docs](.same/README.md)** - Complete technical documentation
-- **[Database Schema](.same/database-schema.sql)** - Full database schema
-- **[Quick Setup](.same/quick-setup.sql)** - Fast setup with sample data
-
-## ✨ Features
-
-### Core Modules
-- 📊 **Dashboard** - Real-time analytics and statistics
-- 🗺️ **GIS Mapping** - Interactive spatial planning with Leaflet ✨ NEW
-- ⚖️ **Legal Integration** - Bi-directional case management ✨ NEW
-- 📝 **Development Applications** - Submit and track applications
-- 🗺️ **Land Parcels** - Parcel registry and GeoJSON mapping
-- 🏘️ **Zoning Districts** - Zoning classifications with spatial data
-- 🏗️ **Development Plans** - Strategic planning
-- 🔍 **Site Inspections** - Inspection scheduling and tracking
-- ⚖️ **Compliance Monitoring** - Violation tracking
-- 👥 **User Management** - Role-based access control
-
-### GIS Capabilities ✨ NEW
-- **Interactive Map** - Powered by React-Leaflet and OpenStreetMap
-- **Spatial Layers** - Parcels, zoning, roads, utilities
-- **Real-time Updates** - Live data from Supabase
-- **Click-to-View** - Parcel details on map interaction
-- **Color-Coded Zoning** - Visual district representation
-- **GeoJSON Support** - Full spatial data integration
-
-### Legal Case Integration ✨ NEW
-- **Bi-Directional Requests** - From/to Legal Division
-- **SLA Tracking** - Auto-calculated deadlines and overdue alerts
-- **11 Request Types** - All planning-legal interactions covered
-- **Workflow Automation** - Auto-assignment, notifications, audit trail
-- **Document Management** - Attachments in both directions
-- **Spatial Evidence** - GPS coordinates, photos, site data
-- **Officer Workload** - Performance tracking and allocation
-
-### Application Types Supported
-- Building Permits
-- Subdivisions
-- Change of Use
-- Rezoning
-- Site Plan Approvals
-- Variances
-- Special Permits
-
-### User Roles
-- **Admin** - Full system access
-- **Planner** - Application review and planning
-- **Officer** - Application submission and processing
-- **Viewer** - Read-only access
-
-## 🔐 Shared Authentication
-
-This subsystem shares authentication with the main Land Management System:
-
-- ✅ Single sign-on across all subsystems
-- ✅ Centralized user management
-- ✅ Users only need profile entries in this subsystem
-- ✅ Easy to separate later when needed
-
-## 🛠️ Technology Stack
-
-- **Framework**: Next.js 14 (App Router)
-- **Database**: Supabase (PostgreSQL)
-- **Auth**: Supabase Auth (Shared)
-- **UI**: shadcn/ui + Tailwind CSS
-- **Charts**: Recharts
-- **Language**: TypeScript
-
-## 📦 Project Structure
-
-```
-physical-planning-system/
-├── src/
-│   ├── app/              # Next.js app router
-│   │   ├── dashboard/    # Main application pages
-│   │   └── login/        # Authentication
-│   ├── components/       # React components
-│   │   ├── ui/          # shadcn/ui components
-│   │   ├── dashboard/   # Dashboard widgets
-│   │   ├── layout/      # Layout components
-│   │   └── users/       # User management
-│   └── lib/             # Utilities and helpers
-├── .same/               # Documentation and setup
-│   ├── README.md        # Technical documentation
-│   ├── SETUP_GUIDE.md   # Setup instructions
-│   ├── database-schema.sql
-│   └── quick-setup.sql
-└── .env.local          # Environment variables
-```
-
-## 🔧 Environment Variables
-
-Already configured in `.env.local`:
+### 3. Configure Environment
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://yvnkyjnwvylrweyzvibs.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
-SUPABASE_SERVICE_ROLE_KEY=eyJ...
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
-## 🎯 Workflow Example
+## 📖 Documentation
 
-1. **Applicant** submits a development application
-2. **Officer** reviews for completeness
-3. **Planner** conducts technical review
-4. **Inspector** performs site inspection
-5. **Planner** makes final decision
-6. System tracks entire process with status updates
+Comprehensive documentation is available in the `.same/` directory:
 
-## 📈 Future Enhancements
+- **[Setup Guide](.same/SETUP_GUIDE.md)** - Detailed installation instructions
+- **[Activate All Modules](.same/ACTIVATE_ALL_MODULES.md)** - Enable all features
+- **[Division Requests Guide](.same/DIVISION_REQUESTS_GUIDE.md)** - Requisition system
+- **[GIS Integration](.same/GIS_LEGAL_INTEGRATION_GUIDE.md)** - Mapping features
+- **[API Integration](.same/API_INTEGRATION_GUIDE.md)** - External system integration
+- **[Quick Reference](.same/QUICK_REFERENCE.md)** - Common tasks
 
-- [ ] Document upload and management
-- [ ] Email notifications
-- [ ] Advanced search and filtering
-- [ ] GIS map integration
-- [ ] PDF report generation
-- [ ] Mobile app integration
-- [ ] Payment processing
-- [ ] Public application portal
-- [ ] Real-time collaboration
+## 🎨 Screenshots
 
-## 🔗 Integration
+### Dashboard
+![Dashboard](docs/screenshots/dashboard.png)
 
-Ready to integrate with:
-- Main Land Management System
-- GIS/Mapping systems
-- Document management systems
-- Payment gateways
-- Email notification services
+### Division Requests
+![Division Requests](docs/screenshots/division-requests.png)
 
-## 📞 Support
+### GIS Map
+![GIS Map](docs/screenshots/gis-map.png)
 
-For issues or questions:
-1. Check the documentation in `.same/`
-2. Review Supabase dashboard logs
-3. Check browser console for errors
+### Inspections
+![Inspections](docs/screenshots/inspections.png)
+
+## 🔐 Security Features
+
+- Row Level Security (RLS) for data isolation
+- Role-based access control (Admin, Officer, Viewer)
+- Secure authentication with Supabase Auth
+- Audit logging for all actions
+- Development mode for testing (authentication bypass)
+
+## 📱 Features in Detail
+
+### Real-time Notifications
+- Unattended request badges (auto-refresh every 30s)
+- Email-style indicators (read/unread)
+- Push notifications for urgent items
+
+### Calendar Integration
+- Visual timeline of all requests
+- Color-coded by status and urgency
+- Click dates to view details
+- Monthly/weekly views
+
+### Document Management
+- Upload multiple file types
+- Document versioning
+- Secure storage via Supabase
+- Download and preview
+
+### Activity Logging
+- Complete audit trail
+- Track who did what and when
+- Status change history
+- Comment threads
+
+## 🚀 Deployment
+
+### Deploy to Netlify
+
+```bash
+# Build the project
+bun run build
+
+# Deploy
+netlify deploy --prod
+```
+
+### Deploy to Vercel
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel --prod
+```
+
+### Environment Variables for Production
+
+Ensure these are set in your hosting platform:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📝 License
 
-Internal use - Papua New Guinea Land Department
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+- **Emmanuel Abi** - Initial work - [@emabi2002](https://github.com/emabi2002)
+
+## 🙏 Acknowledgments
+
+- Papua New Guinea Lands & Physical Planning Department
+- Built with [Same](https://same.new) - AI-powered development platform
+- Icons by [Lucide](https://lucide.dev)
+- UI components by [shadcn/ui](https://ui.shadcn.com)
+
+## 📞 Support
+
+For support and questions:
+- 📧 Email: support@example.com
+- 📖 Documentation: [docs](docs/)
+- 🐛 Issues: [GitHub Issues](https://github.com/emabi2002/landphysicalplanning/issues)
+
+## 🗺️ Roadmap
+
+- [ ] Email notification system
+- [ ] SMS alerts for urgent requests
+- [ ] Mobile app (React Native)
+- [ ] Advanced reporting and analytics
+- [ ] Integration with National Land Registry
+- [ ] Public portal for application status
+- [ ] Payment gateway integration
+- [ ] Multi-language support (Tok Pisin, Hiri Motu)
 
 ---
 
-**Built with Next.js + Supabase**
+**Built with ❤️ for Papua New Guinea's Physical Planning Division**
+
+🤖 *Developed with [Same](https://same.new) - AI-powered web development*
